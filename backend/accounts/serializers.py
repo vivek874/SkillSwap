@@ -29,10 +29,21 @@ class SkillSerializer(serializers.ModelSerializer):
 class UserSkillSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     skill = SkillSerializer(read_only=True)
+    skill_name = serializers.CharField(write_only=True)
 
     class Meta:
         model = UserSkill
-        fields = ['id', 'type', 'proficiency', 'user', 'skill']
+        fields = ['id', 'type', 'proficiency','is_available_for_freelance', 'user', 'skill','skill_name']
+        
+    def create(self, validated_data):
+        skill_name = validated_data.pop("skill_name").strip().title()  # Capitalizes like "Video Editing"
+        skill, created = Skill.objects.get_or_create(name__iexact=skill_name, defaults={"name": skill_name})
+
+        
+        user = self.context["request"].user
+        validated_data["user"] = user
+        validated_data["skill"] = skill
+        return super().create(validated_data)
 
 class SkillRequestSerializer(serializers.ModelSerializer):
     requester = UserSerializer(read_only=True)
@@ -56,11 +67,11 @@ class SkillRequestSerializer(serializers.ModelSerializer):
         ]
 class ReviewSerializer(serializers.ModelSerializer):
     reviewer = UserSerializer(read_only=True)
-    reviewee = UserSerializer(read_only=True)
+    reviewee = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
 
     class Meta:
         model = Review
-        fields = ['id', 'reviewer', 'reviewee', 'skill_request', 'rating', 'comment', 'created_at']
+        fields = ['id', 'reviewer', 'reviewee', 'request','rating', 'comment', 'created_at']
 
 class MessageSerializer(serializers.ModelSerializer):
     sender = UserSerializer(read_only=True)

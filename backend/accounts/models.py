@@ -38,6 +38,8 @@ class UserSkill(models.Model):
     skill = models.ForeignKey(Skill, on_delete=models.CASCADE)
     type = models.CharField(max_length=5, choices=SKILL_TYPE_CHOICES)
     proficiency = models.CharField(max_length=50, blank=True)  # Optional
+    is_available_for_freelance = models.BooleanField(default=False)
+    hourly_rate = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
 
     class Meta:
         unique_together = ('user', 'skill', 'type')

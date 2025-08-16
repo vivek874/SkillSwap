@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets,serializers
 from .models import User, Profile, Skill, UserSkill, SkillRequest, Review, Message
 from .serializers import UserSerializer, ProfileSerializer, SkillSerializer, UserSkillSerializer, SkillRequestSerializer, ReviewSerializer, MessageSerializer
 from rest_framework import generics
@@ -71,12 +71,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
         return Review.objects.filter(reviewer=user) | Review.objects.filter(reviewee=user)
     
     def perform_create(self, serializer):
-        skill_request = serializer.validated_data.get('skill_request')
-        # Check if the skill request is completed
-        if skill_request.status != 'completed':
-            raise serializers.ValidationError({
-                "skill_request": "You can only review a completed skill request."
-            })
+       
         serializer.save(reviewer=self.request.user)
 
 class MessageViewSet(viewsets.ModelViewSet):
@@ -93,11 +88,12 @@ class MessageViewSet(viewsets.ModelViewSet):
     
 class SkillMatchSearchView(APIView):
     permission_classes = [IsAuthenticated]
-
+    
     def get(self, request, format=None):
         # Get query parameters
         skill_to_learn = request.query_params.get('learn', None)
         skill_to_teach = request.query_params.get('teach', None)
+        freelance = request.query_params.get('freelance',None)
 
         if not skill_to_learn:
             return Response({"error": "Parameter 'learn' is required."}, status=400)
@@ -114,6 +110,7 @@ class SkillMatchSearchView(APIView):
                 skills__type='learn',
                 skills__skill__name__iexact=skill_to_teach
             )
-
+        if freelance == "true":
+            users = users.filter(skills__is_available_for_freelance=True)
         serializer = UserSerializer(users.distinct(), many=True)
         return Response(serializer.data)
