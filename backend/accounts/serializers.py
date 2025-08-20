@@ -4,7 +4,7 @@ from .models import User, Profile, Skill, UserSkill, SkillRequest, Review, Messa
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "username", "email"]
+        fields = ["id", "username", "email", "password"]
         
     def create(self, validated_data):
         user = User(
@@ -16,6 +16,7 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 class ProfileSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username', read_only=True)
     class Meta:
         model = Profile
         fields = "__all__"

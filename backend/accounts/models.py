@@ -14,6 +14,10 @@ class Profile(models.Model):
     location = models.CharField(max_length=100, blank=True)
     profile_picture = models.ImageField(upload_to="profile_pics/", blank=True, null=True)
 
+    @property
+    def username(self):
+        return self.user.username
+
     def __str__(self):
         return f"{self.user.username}'s Profile"
 

@@ -4,31 +4,31 @@ import hero from '../assets/hero.png';
 const LandingPage = () => {
   return (
     
-    <div className="min-h-screen w-full bg-gradient-to-br from-cyan-500 via-sky-500 to-blue-600">
+    <div className="min-h-screen w-full bg-gradient-to-br from-sky-200 via-sky-300 to-sky-400">
       <div className="min-h-screen flex flex-col">
         <div className="flex-grow font-sans" >
           {/* Navbar */}
           <nav className="bg-white shadow">
             <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-              <h1 className="text-2xl font-bold text-blue-600">SkillSwap</h1>
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-sky-500 to-blue-500 text-transparent bg-clip-text">SkillSwap</h1>
               <div className="space-x-4">
-                <Link to="/login" className="text-gray-700 hover:text-blue-600">Login</Link>
-                <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Sign Up</button>
+                <Link to="/login" className="text-gray-700 border border-gray-300 rounded-full px-4 py-2 hover:bg-gray-100 transition">Login</Link>
+                <button className="bg-gradient-to-r from-sky-500 to-blue-500 text-white px-4 py-2 rounded-full hover:opacity-90 transition">Sign Up</button>
               </div>
             </div>
           </nav>
           {/* Hero Section */}
-          <section className="flex flex-col md:flex-row items-center justify-between px-10 py-24 bg-gradient-to-br from-cyan-600 via-sky-500 to-blue-700 text-white">
+          <section className="flex flex-col md:flex-row items-center justify-between px-10 py-24 bg-gradient-to-br from-sky-200 via-sky-300 to-sky-400 text-white">
             <div className="max-w-xl mb-10 md:mb-0">
               <h2 className="text-5xl font-extrabold leading-tight mb-6">
                 Swap Skills,<br />
-                <span className="text-yellow-300">Grow Together</span>
+                <span className="text-blue-500">Grow Together</span>
               </h2>
               <p className="text-lg mb-8 text-white/90">
                 Connect with learners and teachers worldwide. Trade your expertise, earn credits, and master new skills in our vibrant community.
               </p>
               <div className="flex space-x-4">
-                <button className="bg-orange-400 hover:bg-orange-500 text-white px-6 py-3 rounded-full text-lg shadow-lg">
+                <button className="bg-blue-400 hover:bg-blue-500 text-white px-6 py-3 rounded-full text-lg shadow-lg">
                   Start Swapping →
                 </button>
                 <button className="bg-white text-gray-800 hover:bg-gray-100 px-6 py-3 rounded-full text-lg shadow-lg">

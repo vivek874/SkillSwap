@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from accounts import views
-from accounts.views import RegisterView,SkillMatchSearchView
+from accounts.views import MyProfileView, RegisterView,SkillMatchSearchView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -26,5 +26,6 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/register/', RegisterView.as_view(), name='register'), 
     path('api/search/', SkillMatchSearchView.as_view(), name='skill_search'),
+    path('api/my-profile/', MyProfileView.as_view(), name='my-profile'),
     
 ]
